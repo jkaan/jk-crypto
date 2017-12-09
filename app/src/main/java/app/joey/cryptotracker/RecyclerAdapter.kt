@@ -1,5 +1,6 @@
 package app.joey.cryptotracker
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
@@ -32,7 +33,20 @@ class RecyclerAdapter(var coins: List<Coin>): RecyclerView.Adapter<RecyclerAdapt
             view.name.text = coin.name
             view.price.text = "€ ${coin.price}"
             view.percentChangeDay.text = coin.percentChangeDay
+
+            if (coin.percentChangeDay.startsWith("-")) {
+                view.percentChangeDay.setTextColor(Color.RED)
+            } else {
+                view.percentChangeDay.setTextColor(Color.GREEN)
+            }
+
             view.percentChangeWeek.text = coin.percentChangeWeek
+
+            if (coin.percentChangeWeek.startsWith("-")) {
+                view.percentChangeWeek.setTextColor(Color.RED)
+            } else {
+                view.percentChangeWeek.setTextColor(Color.GREEN)
+            }
         }
 
         override fun onClick(v: View?) {
