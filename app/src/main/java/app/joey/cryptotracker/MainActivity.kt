@@ -6,8 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity: AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
     private lateinit var service: CoinMarketCapService
@@ -19,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = linearLayoutManager
         adapter = RecyclerAdapter(emptyList())
         recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(DividerItemDecoration(this))
         service = CoinMarketCapService()
     }
 
