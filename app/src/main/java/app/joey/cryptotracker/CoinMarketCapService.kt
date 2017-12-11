@@ -14,4 +14,8 @@ class CoinMarketCapService {
     fun getCoins(): Call<List<Coin>> {
         return service.getCoins()
     }
+
+    fun getCoins(start: Int, limit: Int): Call<List<Coin>> {
+        return service.getCoins(start, limit)
+    }
 }

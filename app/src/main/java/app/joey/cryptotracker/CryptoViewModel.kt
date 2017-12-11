@@ -3,25 +3,24 @@ package app.joey.cryptotracker
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.arch.paging.DataSource
+import android.arch.paging.LivePagedListProvider
+import android.arch.paging.PagedList
 import org.jetbrains.anko.doAsync
 
 
 class CryptoViewModel: ViewModel() {
-    private var coins: MutableLiveData<List<Coin>> = MutableLiveData()
-    private val service = CoinMarketCapService()
+    var pagedCoins: LiveData<PagedList<Coin>>? = null
 
-    fun getCoins(): LiveData<List<Coin>> {
-        loadCoins()
-        return coins
-    }
-
-    private fun loadCoins() {
-        doAsync {
-            val response = service.getCoins().execute()
-
-            if (response.isSuccessful) {
-                coins.postValue(response.body())
+    init {
+        pagedCoins = object: LivePagedListProvider<Int, Coin>() {
+            override fun createDataSource(): DataSource<Int, Coin> {
+                return CoinDataSource(CoinMarketCapService())
             }
-        }
+        }.create(0, PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(25)
+            .build()
+        )
     }
 }
